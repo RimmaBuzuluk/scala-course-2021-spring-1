@@ -13,8 +13,21 @@ import model._
  */
 object services:
   
-  def getUserProfile(): ErrorOr[UserProfile] = ???
-  def getPosts(userId: UUID): ErrorOr[List[Post]] = ???
-  def getComments(postId: UUID): ErrorOr[List[Comment]] = ??? 
-  def getLikes(postId: UUID): ErrorOr[List[Like]] = ???
-  def getShares(postId: UUID): ErrorOr[List[Share]] = ???
+  def getUserProfile(): ErrorOf[UserProfile] = ???
+  
+  
+  def getPosts(userId: UUID): ErrorOf[List[Post]] =
+    for
+    profile ← getUserProfile()
+    posts   ← getPosts(profile.userId)
+      yield posts
+
+
+
+ 
+      
+  
+  
+  def getComments(postId: UUID): ErrorOf[List[Comment]] = ??? 
+  def getLikes(postId: UUID): ErrorOf[List[Like]] = ???
+  def getShares(postId: UUID): ErrorOf[List[Share]] = ???

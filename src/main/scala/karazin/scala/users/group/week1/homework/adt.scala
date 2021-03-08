@@ -11,25 +11,32 @@ package karazin.scala.users.group.week1.homework
 
 object adt:
   
-  enum ErrorOr[+V]:
+  enum ErrorOf[+V]:
+    case  Some(x:V) extends ErrorOf[V]
+    case Error(x: Throwable) extends ErrorOf[V]
     
+   
+
     // Added to make it compilable. Remove it.
-    case DummyCase
-    
+    //case DummyCase
+
     /* 
       Two case must be defined: 
       * a case for a regular value
       * a case for an error (it should contain an actual throwable)
      */
-  
+
     /* 
       The method is used for defining execution pipelines
       Provide a type parameter, an argument and a result type
       
       Make sure that in case of failing the method with exception
       no exception is thrown but the case for an error is returned
-    */ 
-    def flatMap = ???
+    */
+    def flatMap[Q](f:V ⇒ErrorOf[Q]):ErrorOf[Q]= 
+      this match
+        case ErrorOf.Error(v)⇒ErrorOf.Error (v)
+        case ErrorOf.Some(v) ⇒ f(v)
 
     /* 
       The method is used for changing the internal object
@@ -38,7 +45,12 @@ object adt:
       Make sure that in case of failing the method with exception
       no exception is thrown but the case for an error is returned
      */
-    def map = ???
+    def map[Q] (f: V⇒Q):ErrorOf[Q]= 
+      this match
+      case ErrorOf.Error(v)⇒ErrorOf.Error (v)
+      case ErrorOf.Some(v)⇒ErrorOf.Some(f(v))
+
+
       
   // Companion object to define constructor
   object ErrorOr:
@@ -48,6 +60,8 @@ object adt:
       Make sure that in case of failing the method with exception
       no exception is thrown but the case for an error is returned
     */
-    def apply = ???
-      
-  
+    def apply[V](v: V): ErrorOf[V] =ErrorOf.Some(v)
+
+
+
+    def apply[V](v: Throwable): ErrorOf[V] =ErrorOf.Error(v)

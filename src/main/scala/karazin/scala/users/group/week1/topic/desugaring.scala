@@ -34,7 +34,7 @@ object desugaring:
    for
      profile ← getUserProfile()
      posts   ← getPosts(profile.userId)
-   yield posts 
+   yield posts
 
   def getUserPostsDesugared: Option[List[Post]] =
     getUserProfile() flatMap { profile ⇒

@@ -22,5 +22,7 @@ object adt:
 
   // Companion object to define constructor
   object Option:
+
+
     def apply[V](v: V): Option[V] =
       if v == null then Option.None else Option.Some(v)
